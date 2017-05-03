@@ -58,10 +58,16 @@ import java.util.List;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
-
 /**
- * https://github.com/CymChad/BaseRecyclerViewAdapterHelper
- */
+    *Created by 马小布 on 2017/5/3.
+    *Project : recycler adapter封装
+    *Program Name :  com.chad.library.adapter.base.BaseQuickAdapter.java
+    *Author :马庆龙 on 2017/5/3 17:54
+    *email:maxiaobu1999@163.com
+    *功能：第一层
+    *伪码：找到重复部分代码，抽取到基类，非重复部分用抽象方法代替，具体让子类实现
+    *待完成：
+*/
 public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends RecyclerView.Adapter<K> {
 
     //load more
@@ -110,11 +116,13 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
 
     private BaseAnimation mCustomAnimation;
     private BaseAnimation mSelectAnimation = new AlphaInAnimation();
-    //header footer
+    //header footer 布局
     private LinearLayout mHeaderLayout;
     private LinearLayout mFooterLayout;
-    //empty
+    //空数据界面
     private FrameLayout mEmptyLayout;
+
+     // true可以展示空数据界面
     private boolean mIsUseEmpty = true;
     private boolean mHeadAndEmptyEnable;
     private boolean mFootAndEmptyEnable;
@@ -124,6 +132,8 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     protected int mLayoutResId;
     protected LayoutInflater mLayoutInflater;
     protected List<T> mData;
+
+    //item类型
     public static final int HEADER_VIEW = 0x00000111;
     public static final int LOADING_VIEW = 0x00000222;
     public static final int FOOTER_VIEW = 0x00000333;
@@ -545,6 +555,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     }
 
     /**
+     * 有头反1
      * if addHeaderView will be return 1, if not will be return 0
      */
     public int getHeaderLayoutCount() {
@@ -565,12 +576,18 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     }
 
     /**
+     * 1显示无数据页面，0不显示
+     * 空数据界面为空||无子view   不展示
+     * mIsUseEmpty为false  不展示
+     * 数据不为null     不展示
+     *
      * if show empty view will be return 1 or not will be return 0
      *
      * @return
      */
     public int getEmptyViewCount() {
         if (mEmptyLayout == null || mEmptyLayout.getChildCount() == 0) {
+            //空数据界面为空||无子view》》》不展示
             return 0;
         }
         if (!mIsUseEmpty) {
@@ -582,10 +599,16 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
         return 1;
     }
 
+    /**
+     * 若getEmptyViewCount() == 1》》》无数据&&当展示empty view
+     * else》》》正常情况  总数量为头+数据个数+脚+加载更多
+     * @return
+     */
     @Override
     public int getItemCount() {
         int count;
         if (getEmptyViewCount() == 1) {
+            //无数据&&当展示empty view
             count = 1;
             if (mHeadAndEmptyEnable && getHeaderLayoutCount() != 0) {
                 count++;
@@ -594,6 +617,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
                 count++;
             }
         } else {
+            //正常情况  总数量为头+数据个数+脚+加载更多
             count = getHeaderLayoutCount() + mData.size() + getFooterLayoutCount() + getLoadMoreViewCount();
         }
         return count;
@@ -602,18 +626,24 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     @Override
     public int getItemViewType(int position) {
         if (getEmptyViewCount() == 1) {
+            //头（不一定有） empty身   foot    最多三项
+            //无数据&&展示emptyView
             boolean header = mHeadAndEmptyEnable && getHeaderLayoutCount() != 0;
             switch (position) {
                 case 0:
                     if (header) {
+                        //empty&&header
                         return HEADER_VIEW;
                     } else {
+                        //only empty
                         return EMPTY_VIEW;
                     }
                 case 1:
                     if (header) {
+                        //header&&empty
                         return EMPTY_VIEW;
                     } else {
+                        //没有头
                         return FOOTER_VIEW;
                     }
                 case 2:
@@ -622,10 +652,14 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
                     return EMPTY_VIEW;
             }
         }
-        int numHeaders = getHeaderLayoutCount();
+
+        //有数据BEGIN
+        int numHeaders = getHeaderLayoutCount();//1有头 0无头
         if (position < numHeaders) {
+            // 有头情况   numHeaders最大1，0<1||0<0
             return HEADER_VIEW;
         } else {
+            //无头情况
             int adjPosition = position - numHeaders;
             int adapterCount = mData.size();
             if (adjPosition < adapterCount) {
