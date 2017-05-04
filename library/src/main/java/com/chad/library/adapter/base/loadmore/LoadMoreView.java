@@ -7,9 +7,15 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 /**
- * Created by BlingBling on 2016/11/11.
- */
-
+    *Created by 马小布 on 2017/5/3.
+    *Project : recycler adapter封装
+    *Program Name :  com.chad.library.adapter.base.loadmore.LoadMoreView.java
+    *Author :马庆龙 on 2017/5/3 19:03
+    *email:maxiaobu1999@163.com
+    *功能：加载更多view
+    *伪码：
+    *待完成：
+*/
 public abstract class LoadMoreView {
 
     public static final int STATUS_DEFAULT = 1;

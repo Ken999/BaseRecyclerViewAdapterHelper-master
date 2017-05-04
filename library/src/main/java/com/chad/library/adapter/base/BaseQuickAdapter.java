@@ -59,15 +59,16 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 /**
-    *Created by 马小布 on 2017/5/3.
-    *Project : recycler adapter封装
-    *Program Name :  com.chad.library.adapter.base.BaseQuickAdapter.java
-    *Author :马庆龙 on 2017/5/3 17:54
-    *email:maxiaobu1999@163.com
-    *功能：第一层
-    *伪码：找到重复部分代码，抽取到基类，非重复部分用抽象方法代替，具体让子类实现
-    *待完成：
-*/
+ * Created by 马小布 on 2017/5/3.
+ * Project : recycler adapter封装
+ * Program Name :  com.chad.library.adapter.base.BaseQuickAdapter.java
+ * Author :马庆龙 on 2017/5/3 17:54
+ * email:maxiaobu1999@163.com
+ * 功能：第一层
+ * 伪码：找到重复部分代码，抽取到基类，非重复部分用抽象方法代替，具体让子类实现
+ * 待完成：
+ */
+@SuppressWarnings("WeakerAccess")
 public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends RecyclerView.Adapter<K> {
 
     //load more
@@ -122,12 +123,11 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     //空数据界面
     private FrameLayout mEmptyLayout;
 
-     // true可以展示空数据界面
+    // true可以展示空数据界面
     private boolean mIsUseEmpty = true;
     private boolean mHeadAndEmptyEnable;
     private boolean mFootAndEmptyEnable;
 
-    protected static final String TAG = BaseQuickAdapter.class.getSimpleName();
     protected Context mContext;
     protected int mLayoutResId;
     protected LayoutInflater mLayoutInflater;
@@ -158,6 +158,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     /**
      * same as recyclerView.setAdapter(), and save the instance of recyclerView
      */
+    @SuppressWarnings("unused")
     public void bindToRecyclerView(RecyclerView recyclerView) {
         if (getRecyclerView() != null) {
             throw new RuntimeException("Don't bind twice");
@@ -171,6 +172,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
      * @deprecated This method is because it can lead to crash: always call this method while RecyclerView is computing a layout or scrolling.
      * Please use {@link #setOnLoadMoreListener(RequestLoadMoreListener, RecyclerView)}
      */
+    @SuppressWarnings("unused")
     @Deprecated
     public void setOnLoadMoreListener(RequestLoadMoreListener requestLoadMoreListener) {
         openLoadMore(requestLoadMoreListener);
@@ -195,6 +197,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
      *
      * @see #disableLoadMoreIfNotFullPage(RecyclerView)
      */
+    @SuppressWarnings("unused")
     public void disableLoadMoreIfNotFullPage() {
         checkNotNull();
         disableLoadMoreIfNotFullPage(getRecyclerView());
@@ -256,8 +259,6 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
 
     /**
      * Set custom load more
-     *
-     * @param loadingView
      */
     public void setLoadMoreView(LoadMoreView loadingView) {
         this.mLoadMoreView = loadingView;
@@ -293,6 +294,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     /**
      * Refresh end, no more data
      */
+    @SuppressWarnings("unused")
     public void loadMoreEnd() {
         loadMoreEnd(false);
     }
@@ -368,6 +370,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
      *
      * @return True if load more is enabled, false otherwise.
      */
+    @SuppressWarnings("unused")
     public boolean isLoadMoreEnable() {
         return mLoadMoreEnable;
     }
@@ -377,12 +380,14 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
      *
      * @param duration The length of the animation, in milliseconds.
      */
+    @SuppressWarnings("unused")
     public void setDuration(int duration) {
         mDuration = duration;
     }
 
 
     /**
+     * 对data进行了判断可以没null
      * Same as QuickAdapter#QuickAdapter(Context,int) but with
      * some initialization data.
      *
@@ -406,8 +411,6 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
 
     /**
      * setting up a new instance to data;
-     *
-     * @param data
      */
     public void setNewData(List<T> data) {
         this.mData = data == null ? new ArrayList<T>() : data;
@@ -425,8 +428,6 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     /**
      * insert  a item associated with the specified position of adapter
      *
-     * @param position
-     * @param item
      * @deprecated use {@link #addData(int, Object)} instead
      */
     @Deprecated
@@ -436,8 +437,6 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
 
     /**
      * add one new data in to certain location
-     *
-     * @param position
      */
     public void addData(int position, T data) {
         mData.add(position, data);
@@ -448,6 +447,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     /**
      * add one new data
      */
+    @SuppressWarnings("unused")
     public void addData(T data) {
         mData.add(data);
         notifyItemInserted(mData.size() + getHeaderLayoutCount());
@@ -456,9 +456,8 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
 
     /**
      * remove the item associated with the specified position of adapter
-     *
-     * @param position
      */
+    @SuppressWarnings("unused")
     public void remove(int position) {
         mData.remove(position);
         int internalPosition = position + getHeaderLayoutCount();
@@ -468,8 +467,10 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     }
 
     /**
+     * notify了
      * change data
      */
+    @SuppressWarnings("unused")
     public void setData(int index, T data) {
         mData.set(index, data);
         notifyItemChanged(index + getHeaderLayoutCount());
@@ -477,9 +478,8 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
 
     /**
      * add new data in to certain location
-     *
-     * @param position
      */
+    @SuppressWarnings("unused")
     public void addData(int position, List<T> data) {
         mData.addAll(position, data);
         notifyItemRangeInserted(position + getHeaderLayoutCount(), data.size());
@@ -488,8 +488,6 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
 
     /**
      * additional data;
-     *
-     * @param newData
      */
     public void addData(List<T> newData) {
         this.mData.addAll(newData);
@@ -511,8 +509,6 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
 
     /**
      * Get the data of list
-     *
-     * @return
      */
     public List<T> getData() {
         return mData;
@@ -535,9 +531,8 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     /**
      * if setHeadView will be return 1 if not will be return 0.
      * notice: Deprecated! Use {@link ViewGroup#getChildCount()} of {@link #getHeaderLayout()} to replace.
-     *
-     * @return
      */
+    @SuppressWarnings("unused")
     @Deprecated
     public int getHeaderViewsCount() {
         return getHeaderLayoutCount();
@@ -546,9 +541,8 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     /**
      * if mFooterLayout will be return 1 or not will be return 0.
      * notice: Deprecated! Use {@link ViewGroup#getChildCount()} of {@link #getFooterLayout()} to replace.
-     *
-     * @return
      */
+    @SuppressWarnings("unused")
     @Deprecated
     public int getFooterViewsCount() {
         return getFooterLayoutCount();
@@ -566,6 +560,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     }
 
     /**
+     * 1有脚  0无脚
      * if addFooterView will be return 1, if not will be return 0
      */
     public int getFooterLayoutCount() {
@@ -580,10 +575,8 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
      * 空数据界面为空||无子view   不展示
      * mIsUseEmpty为false  不展示
      * 数据不为null     不展示
-     *
+     * <p>
      * if show empty view will be return 1 or not will be return 0
-     *
-     * @return
      */
     public int getEmptyViewCount() {
         if (mEmptyLayout == null || mEmptyLayout.getChildCount() == 0) {
@@ -602,7 +595,6 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     /**
      * 若getEmptyViewCount() == 1》》》无数据&&当展示empty view
      * else》》》正常情况  总数量为头+数据个数+脚+加载更多
-     * @return
      */
     @Override
     public int getItemCount() {
@@ -623,6 +615,9 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
         return count;
     }
 
+    /**
+     * 头 身 脚 加载更多
+     */
     @Override
     public int getItemViewType(int position) {
         if (getEmptyViewCount() == 1) {
@@ -659,23 +654,32 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
             // 有头情况   numHeaders最大1，0<1||0<0
             return HEADER_VIEW;
         } else {
-            //无头情况
-            int adjPosition = position - numHeaders;
-            int adapterCount = mData.size();
+            //不是头的情况
+            int adjPosition = position - numHeaders;//去掉头的position，不管有没有
+            int adapterCount = mData.size();//数据数量
             if (adjPosition < adapterCount) {
+                //body item
                 return getDefItemViewType(adjPosition);
             } else {
+                //脚或加载更多
                 adjPosition = adjPosition - adapterCount;
-                int numFooters = getFooterLayoutCount();
+                int numFooters = getFooterLayoutCount();//0~1
                 if (adjPosition < numFooters) {
+                    //footer
                     return FOOTER_VIEW;
                 } else {
+                    //loading
                     return LOADING_VIEW;
                 }
             }
         }
     }
 
+    /**
+     * 获取正常item类型
+     *
+     * @return 若！MultiType返0
+     */
     protected int getDefItemViewType(int position) {
         if (mMultiTypeDelegate != null) {
             return mMultiTypeDelegate.getDefItemViewType(mData, position);
@@ -685,11 +689,13 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
 
     @Override
     public K onCreateViewHolder(ViewGroup parent, int viewType) {
-        K baseViewHolder = null;
+        K baseViewHolder;
+
         this.mContext = parent.getContext();
         this.mLayoutInflater = LayoutInflater.from(mContext);
         switch (viewType) {
             case LOADING_VIEW:
+                //加载更多
                 baseViewHolder = getLoadingView(parent);
                 break;
             case HEADER_VIEW:
@@ -705,19 +711,26 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
                 baseViewHolder = onCreateDefViewHolder(parent, viewType);
                 bindViewClickListener(baseViewHolder);
         }
-        baseViewHolder.setAdapter(this);
+        baseViewHolder.setAdapter(this);//让viewHolder持有adapter对象
         return baseViewHolder;
 
     }
 
 
+    /**
+     * get 加载更多的viewHolder&&设置加载失败点击事件
+     *
+     * @param parent 父布局
+     * @return 加载更多view
+     */
     private K getLoadingView(ViewGroup parent) {
-        View view = getItemView(mLoadMoreView.getLayoutId(), parent);
-        K holder = createBaseViewHolder(view);
+        View view = getItemView(mLoadMoreView.getLayoutId(), parent);//加载更多的view
+        K holder = createBaseViewHolder(view);//转成BaseViewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mLoadMoreView.getLoadMoreStatus() == LoadMoreView.STATUS_FAIL) {
+                    //加载失败
                     mLoadMoreView.setLoadMoreStatus(LoadMoreView.STATUS_DEFAULT);
                     notifyItemChanged(getHeaderLayoutCount() + mData.size() + getFooterLayoutCount());
                 }
@@ -730,8 +743,6 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
      * Called when a view created by this adapter has been attached to a window.
      * simple to solve item will layout using all
      * {@link #setFullSpan(RecyclerView.ViewHolder)}
-     *
-     * @param holder
      */
     @Override
     public void onViewAttachedToWindow(K holder) {
@@ -798,19 +809,17 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     /**
      * To bind different types of holder and solve different the bind events
      *
-     * @param holder
-     * @param positions
      * @see #getDefItemViewType(int)
      */
     @Override
     public void onBindViewHolder(K holder, int positions) {
         //Do not move position, need to change before LoadMoreView binding
-        autoLoadMore(positions);
+        autoLoadMore(positions);//先处理一下加载更多
         int viewType = holder.getItemViewType();
 
         switch (viewType) {
             case 0:
-
+                //正常body
                 convert(holder, mData.get(holder.getLayoutPosition() - getHeaderLayoutCount()));
                 break;
             case LOADING_VIEW:
@@ -828,6 +837,11 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
         }
     }
 
+    /**
+     * 为每个item绑定点击 长按事件
+     *
+     * @param baseViewHolder item
+     */
     private void bindViewClickListener(final BaseViewHolder baseViewHolder) {
         if (baseViewHolder == null) {
             return;
@@ -839,17 +853,17 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getOnItemClickListener() != null && baseViewHolder != null) {
-
-                    getOnItemClickListener().onItemClick(BaseQuickAdapter.this, v, baseViewHolder.getLayoutPosition() - getHeaderLayoutCount());
+                if (getOnItemClickListener() != null) {
+                    getOnItemClickListener().onItemClick(BaseQuickAdapter.this, v,
+                            baseViewHolder.getLayoutPosition() - getHeaderLayoutCount());
                 }
-
             }
         });
         view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (getOnItemLongClickListener() != null && baseViewHolder != null) {
+                //noinspection SimplifiableIfStatement
+                if (getOnItemLongClickListener() != null) {
                     return getOnItemLongClickListener().onItemLongClick(BaseQuickAdapter.this, v, baseViewHolder.getLayoutPosition() - getHeaderLayoutCount());
                 }
                 return false;
@@ -860,10 +874,12 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
 
     private MultiTypeDelegate<T> mMultiTypeDelegate;
 
+    @SuppressWarnings("unused")
     public void setMultiTypeDelegate(MultiTypeDelegate<T> multiTypeDelegate) {
         mMultiTypeDelegate = multiTypeDelegate;
     }
 
+    @SuppressWarnings("unused")
     public MultiTypeDelegate<T> getMultiTypeDelegate() {
         return mMultiTypeDelegate;
     }
@@ -881,12 +897,15 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     }
 
     /**
+     * 转成BaseViewHolder
+     * <p>
      * if you want to use subclass of BaseViewHolder in the adapter,
      * you must override the method to create new ViewHolder.
      *
      * @param view view
      * @return new ViewHolder
      */
+    @SuppressWarnings("unchecked")
     protected K createBaseViewHolder(View view) {
         Class temp = getClass();
         Class z = null;
@@ -900,11 +919,8 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
 
     /**
      * try to create Generic K instance
-     *
-     * @param z
-     * @param view
-     * @return
      */
+    @SuppressWarnings("unchecked")
     private K createGenericKInstance(Class z, View view) {
         try {
             Constructor constructor;
@@ -932,9 +948,6 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
 
     /**
      * get generic parameter K
-     *
-     * @param z
-     * @return
      */
     private Class getInstancedGenericKClass(Class z) {
         Type type = z.getGenericSuperclass();
@@ -956,6 +969,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
      * Return root layout of header
      */
 
+    @SuppressWarnings("unused")
     public LinearLayout getHeaderLayout() {
         return mHeaderLayout;
     }
@@ -963,14 +977,13 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     /**
      * Return root layout of footer
      */
+    @SuppressWarnings("unused")
     public LinearLayout getFooterLayout() {
         return mFooterLayout;
     }
 
     /**
      * Append header to the rear of the mHeaderLayout.
-     *
-     * @param header
      */
     public int addHeaderView(View header) {
         return addHeaderView(header, -1);
@@ -981,20 +994,14 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
      * When index = -1 or index >= child count in mHeaderLayout,
      * the effect of this method is the same as that of {@link #addHeaderView(View)}.
      *
-     * @param header
-     * @param index  the position in mHeaderLayout of this header.
-     *               When index = -1 or index >= child count in mHeaderLayout,
-     *               the effect of this method is the same as that of {@link #addHeaderView(View)}.
+     * @param index the position in mHeaderLayout of this header.
+     *              When index = -1 or index >= child count in mHeaderLayout,
+     *              the effect of this method is the same as that of {@link #addHeaderView(View)}.
      */
     public int addHeaderView(View header, int index) {
         return addHeaderView(header, index, LinearLayout.VERTICAL);
     }
 
-    /**
-     * @param header
-     * @param index
-     * @param orientation
-     */
     public int addHeaderView(View header, int index, int orientation) {
         if (mHeaderLayout == null) {
             mHeaderLayout = new LinearLayout(header.getContext());
@@ -1020,10 +1027,12 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
         return index;
     }
 
+    @SuppressWarnings("unused")
     public int setHeaderView(View header) {
         return setHeaderView(header, 0, LinearLayout.VERTICAL);
     }
 
+    @SuppressWarnings("unused")
     public int setHeaderView(View header, int index) {
         return setHeaderView(header, index, LinearLayout.VERTICAL);
     }
@@ -1041,8 +1050,8 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     /**
      * Append footer to the rear of the mFooterLayout.
      *
-     * @param footer
      */
+    @SuppressWarnings("unused")
     public int addFooterView(View footer) {
         return addFooterView(footer, -1, LinearLayout.VERTICAL);
     }
@@ -1056,7 +1065,6 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
      * When index = -1 or index >= child count in mFooterLayout,
      * the effect of this method is the same as that of {@link #addFooterView(View)}.
      *
-     * @param footer
      * @param index  the position in mFooterLayout of this footer.
      *               When index = -1 or index >= child count in mFooterLayout,
      *               the effect of this method is the same as that of {@link #addFooterView(View)}.
@@ -1086,10 +1094,12 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
         return index;
     }
 
+    @SuppressWarnings("unused")
     public int setFooterView(View header) {
         return setFooterView(header, 0, LinearLayout.VERTICAL);
     }
 
+    @SuppressWarnings("unused")
     public int setFooterView(View header, int index) {
         return setFooterView(header, index, LinearLayout.VERTICAL);
     }
@@ -1108,7 +1118,6 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
      * remove header view from mHeaderLayout.
      * When the child count of mHeaderLayout is 0, mHeaderLayout will be set to null.
      *
-     * @param header
      */
     public void removeHeaderView(View header) {
         if (getHeaderLayoutCount() == 0) return;
@@ -1126,7 +1135,6 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
      * remove footer view from mFooterLayout,
      * When the child count of mFooterLayout is 0, mFooterLayout will be set to null.
      *
-     * @param footer
      */
     public void removeFooterView(View footer) {
         if (getFooterLayoutCount() == 0) return;
@@ -1143,6 +1151,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     /**
      * remove all header view from mHeaderLayout and set null to mHeaderLayout
      */
+    @SuppressWarnings("unused")
     public void removeAllHeaderView() {
         if (getHeaderLayoutCount() == 0) return;
 
@@ -1156,6 +1165,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     /**
      * remove all footer view from mFooterLayout and set null to mFooterLayout
      */
+    @SuppressWarnings("unused")
     public void removeAllFooterView() {
         if (getFooterLayoutCount() == 0) return;
 
@@ -1204,6 +1214,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
      *
      * @see #bindToRecyclerView(RecyclerView)
      */
+    @SuppressWarnings("unused")
     public void setEmptyView(int layoutResId) {
         checkNotNull();
         setEmptyView(layoutResId, getRecyclerView());
@@ -1241,6 +1252,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
      *
      * @param isHeadAndEmpty false will not show headView if the data is empty true will show emptyView and headView
      */
+    @SuppressWarnings("unused")
     public void setHeaderAndEmpty(boolean isHeadAndEmpty) {
         setHeaderFooterEmpty(isHeadAndEmpty, false);
     }
@@ -1249,8 +1261,6 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
      * set emptyView show if adapter is empty and want to show headview and footview
      * Call before {@link RecyclerView#setAdapter(RecyclerView.Adapter)}
      *
-     * @param isHeadAndEmpty
-     * @param isFootAndEmpty
      */
     public void setHeaderFooterEmpty(boolean isHeadAndEmpty, boolean isFootAndEmpty) {
         mHeadAndEmptyEnable = isHeadAndEmpty;
@@ -1260,8 +1270,8 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     /**
      * Set whether to use empty view
      *
-     * @param isUseEmpty
      */
+    @SuppressWarnings("unused")
     public void isUseEmpty(boolean isUseEmpty) {
         mIsUseEmpty = isUseEmpty;
     }
@@ -1273,18 +1283,23 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
      *
      * @return The view to show if the adapter is empty.
      */
+    @SuppressWarnings("unused")
     public View getEmptyView() {
         return mEmptyLayout;
     }
 
     private int mAutoLoadMoreSize = 1;
 
+    @SuppressWarnings("unused")
     public void setAutoLoadMoreSize(int autoLoadMoreSize) {
         if (autoLoadMoreSize > 1) {
             mAutoLoadMoreSize = autoLoadMoreSize;
         }
     }
 
+    /**
+     * 在bind view时，依据position判断是否加载更多
+     */
     private void autoLoadMore(int position) {
         if (getLoadMoreViewCount() == 0) {
             return;
@@ -1315,12 +1330,11 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     /**
      * add animation when you want to show time
      *
-     * @param holder
      */
     private void addAnimation(RecyclerView.ViewHolder holder) {
         if (mOpenAnimationEnable) {
             if (!mFirstOnlyEnable || holder.getLayoutPosition() > mLastPosition) {
-                BaseAnimation animation = null;
+                BaseAnimation animation ;
                 if (mCustomAnimation != null) {
                     animation = mCustomAnimation;
                 } else {
@@ -1336,31 +1350,32 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
 
     /**
      * set anim to start when loading
-     *
-     * @param anim
-     * @param index
      */
-    protected void startAnim(Animator anim, int index) {
+    protected void startAnim(Animator anim, @SuppressWarnings("UnusedParameters") int index) {
         anim.setDuration(mDuration).start();
         anim.setInterpolator(mInterpolator);
     }
 
     /**
+     * 干这个的return mLayoutInflater.inflate(layoutResId, parent, false);
+     *
      * @param layoutResId ID for an XML layout resource to load
      * @param parent      Optional view to be the parent of the generated hierarchy or else simply an object that
      *                    provides a set of LayoutParams values for root of the returned
      *                    hierarchy
      * @return view will be return
      */
+
     protected View getItemView(int layoutResId, ViewGroup parent) {
         return mLayoutInflater.inflate(layoutResId, parent, false);
     }
 
 
+    /**
+     * 加载更多的回调
+     */
     public interface RequestLoadMoreListener {
-
         void onLoadMoreRequested();
-
     }
 
 
@@ -1421,10 +1436,11 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     }
 
     /**
+     * 绑定数据
      * Implement this method and use the helper to adapt the view to the given item.
      *
-     * @param helper A fully initialized helper.
-     * @param item   The item that needs to be displayed.
+     * @param helper 就是view Holder A fully initialized helper.
+     * @param item  数据 The item that needs to be displayed.
      */
     protected abstract void convert(K helper, T item);
 
@@ -1435,6 +1451,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
      *
      * @see #bindToRecyclerView(RecyclerView)
      */
+    @SuppressWarnings("unused")
     public View getViewByPosition(int position, int viewId) {
         checkNotNull();
         return getViewByPosition(getRecyclerView(), position, viewId);
@@ -1467,6 +1484,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
                 IExpandable item = (IExpandable) list.get(i);
                 if (item.isExpanded() && hasSubItems(item)) {
                     List subList = item.getSubItems();
+                    //noinspection unchecked
                     mData.addAll(pos + 1, subList);
                     int subItemCount = recursiveExpand(pos + 1, subList);
                     count += subItemCount;
@@ -1500,6 +1518,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
         int subItemCount = 0;
         if (!expandable.isExpanded()) {
             List list = expandable.getSubItems();
+            //noinspection unchecked
             mData.addAll(position + 1, list);
             subItemCount += recursiveExpand(position + 1, list);
 
@@ -1582,12 +1601,13 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
      *                 if <strong>true</strong>, it won't notify recyclerView to redraw UI.
      * @return the number of items that have been added to the adapter.
      */
+    @SuppressWarnings("unused")
     public int expandAll(int position, boolean init) {
         return expandAll(position, true, !init);
     }
 
     public void expandAll() {
-        for (int i = mData.size() - 1; i >=0; i--) {
+        for (int i = mData.size() - 1; i >= 0; i--) {
             expandAll(i, false, false);
         }
     }
@@ -1600,7 +1620,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
         IExpandable expandable = (IExpandable) item;
         int subItemCount = 0;
         if (expandable.isExpanded()) {
-            List<T> subItems = expandable.getSubItems();
+            @SuppressWarnings("unchecked") List<T> subItems = expandable.getSubItems();
             for (int i = subItems.size() - 1; i >= 0; i--) {
                 T subItem = subItems.get(i);
                 int pos = getItemPosition(subItem);
@@ -1846,7 +1866,7 @@ public abstract class BaseQuickAdapter<T, K extends BaseViewHolder> extends Recy
     }
 
     /**
-     * @return The callback to be invoked with an item in this RecyclerView has
+     * @return The callback to be invoked调用 with an item in this RecyclerView has
      * been clicked and held, or null id no callback as been set.
      */
     public final OnItemClickListener<T> getOnItemClickListener() {

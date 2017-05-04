@@ -16,13 +16,16 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 /**
- * 文 件 名: PullToRefreshAdapter
- * 创 建 人: Allen
- * 创建日期: 16/12/24 19:55
- * 邮   箱: AllenCoder@126.com
- * 修改时间：
- * 修改备注：
- */
+    *Created by 马小布 on 2017/5/4.
+    *Project : recycler adapter封装
+    *Program Name :  com.chad.baserecyclerviewadapterhelper.adapter.PullToRefreshAdapter.java
+    *Author :马庆龙 on 2017/5/4 10:17
+    *email:maxiaobu1999@163.com
+    *功能：带下拉刷新的
+    *伪码：
+    *待完成：
+*/
+@SuppressWarnings("WeakerAccess")
 public class PullToRefreshAdapter extends BaseQuickAdapter<Status, BaseViewHolder> {
     public PullToRefreshAdapter() {
         super( R.layout.layout_animation, DataServer.getSampleData(10));
@@ -57,6 +60,7 @@ public class PullToRefreshAdapter extends BaseQuickAdapter<Status, BaseViewHolde
 
         @Override
         public void updateDrawState(TextPaint ds) {
+            //noinspection deprecation
             ds.setColor(Utils.getContext().getResources().getColor(R.color.clickspan_color));
             ds.setUnderlineText(true);
         }

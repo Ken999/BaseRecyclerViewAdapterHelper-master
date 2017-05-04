@@ -1,18 +1,3 @@
-/**
- * Copyright 2013 Joan Zapata
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.chad.library.adapter.base;
 
 import android.graphics.Bitmap;
@@ -41,8 +26,16 @@ import java.util.LinkedHashSet;
 
 
 /**
- * https://github.com/CymChad/BaseRecyclerViewAdapterHelper
- */
+    *Created by 马小布 on 2017/5/4.
+    *Project : recycler adapter封装
+    *Program Name :  com.chad.library.adapter.base.BaseViewHolder.java
+    *Author :马庆龙 on 2017/5/4 9:22
+    *email:maxiaobu1999@163.com
+    *功能：viewholder封装一下
+    *伪码：
+    *待完成：
+*/
+@SuppressWarnings("unused")
 public class BaseViewHolder extends RecyclerView.ViewHolder {
 
     /**
@@ -62,39 +55,55 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     private BaseQuickAdapter adapter;
 
 
-    public View convertView;
+    /**
+     * 就是viewHolder
+     */
+    private View convertView;
 
     /**
      * Package private field to retain the associated user object and detect a change
      */
-    Object associatedObject;
+    private Object associatedObject;
 
 
     public BaseViewHolder(final View view) {
         super(view);
-        this.views = new SparseArray<>();
+        this.views = new SparseArray<>();//稀疏数组  替代HashMap  省内存
         this.childClickViewIds = new LinkedHashSet<>();
         this.itemChildLongClickViewIds = new LinkedHashSet<>();
         this.nestViews = new HashSet<>();
         convertView = view;
-
-
     }
 
+    /**
+     *
+     * @return position-header数量
+     */
     private int getClickPosition() {
         return getLayoutPosition() - adapter.getHeaderLayoutCount();
     }
 
+    /**
+     *
+     * @return  长按view的id集合
+     */
     public HashSet<Integer> getItemChildLongClickViewIds() {
         return itemChildLongClickViewIds;
     }
 
+    /**
+     *
+     * @return  点击view的id集合
+     */
     public HashSet<Integer> getChildClickViewIds() {
         return childClickViewIds;
     }
 
+    /**
+     *
+     * @return   就是viewHolder
+     */
     public View getConvertView() {
-
         return convertView;
     }
 
@@ -103,7 +112,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
      *
      * @param viewId The view id.
      * @param value  The text to put in the text view.
-     * @return The BaseViewHolder for chaining.
+     * @return 就是viewHolder返回去 The BaseViewHolder for chaining链接.
      */
     public BaseViewHolder setText(int viewId, CharSequence value) {
         TextView view = getView(viewId);
@@ -223,6 +232,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     /**
+     * 给textView加个链接
      * Add links into a TextView.
      *
      * @param viewId The id of the TextView to linkify.
@@ -235,6 +245,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     }
 
     /**
+     * 设置字体
      * Apply the typeface to the given viewId, and enable subpixel rendering.
      */
     public BaseViewHolder setTypeface(int viewId, Typeface typeface) {
@@ -549,6 +560,7 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
      * @param adapter The adapter;
      * @return The BaseViewHolder for chaining.
      */
+    @SuppressWarnings("unchecked")
     public BaseViewHolder setAdapter(int viewId, Adapter adapter) {
         AdapterView view = getView(viewId);
         view.setAdapter(adapter);
